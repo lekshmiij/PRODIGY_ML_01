@@ -4,32 +4,37 @@
 
 
 Comprehensive Overview of the Process
-### 1. Loading the Dataset
-The dataset is loaded using pandas from a CSV file located at 'C:/Users/lekshmi/Downloads/HousePricePrediction.xlsx - Sheet1.csv'.
-### 2. Initial Exploration and Preprocessing
-The dataset initially has 2919 rows and 13 columns.
-Duplicate rows are checked and dropped, ensuring there are no duplicates.
-The Id column is removed as it is unnecessary for the analysis.
-Columns are checked for null values. The SalePrice column's null values are imputed using the mean strategy, and the remaining null values are filled with zero.
-### 3. Descriptive Statistics
-Descriptive statistics of the dataset are obtained to understand the data distribution and central tendency measures.
-### 4. Outlier Detection and Handling
-A boxplot is used to detect outliers in the LotArea column.
-Outliers are handled using the Interquartile Range (IQR) method. Data points outside the range defined by 1.5 * IQR are removed.
-### 5. Handling Categorical Data
-Columns containing categorical data are identified and converted to string type to prepare for encoding.
-OneHotEncoding is applied to the categorical columns to convert them into numerical format suitable for machine learning algorithms.
-### 6. Feature Scaling
-As different columns have different scales, feature scaling is performed using the MinMaxScaler to bring all values into a standard scale.
-### 7. Data Splitting
-The dataset is split into training and testing sets using an 80-20 split, with a random state of 100 to ensure reproducibility.
-### 8. Linear Regression Model
-A Linear Regression model is imported and trained on the training data.
-Predictions are made on the test data, and the first few predicted values are compared with the actual values.
-### 9. Model Evaluation 
-The Mean Absolute Error (MAE) is calculated to evaluate the performance of the Linear Regression model.
-### 10. Model Regularization
-To improve the model's performance, regularization techniques are applied using Lasso and Ridge regression:
-Lasso Regression: Applied with an alpha of 20, a maximum of 100 iterations, and a tolerance of 0.1.
-Ridge Regression: Applied with an alpha of 50, a maximum of 100 iterations, and a tolerance of 0.1.
-The MAE is recalculated for both regularized models to compare performance improvements.
+Overview of the Process
+### Importing Libraries:
+Essential libraries are imported, including pandas and numpy for data manipulation, scikit-learn for model training, preprocessing, and evaluation, and SelectFromModel for feature selection.
+### Loading the Dataset:
+The dataset is loaded from a CSV file into a pandas DataFrame.
+### Data Preprocessing:
+Removing Duplicates: Duplicate rows are dropped to ensure the dataset contains unique entries.
+Dropping Unnecessary Columns: The 'Id' column is dropped as it does not contribute to the prediction.
+### Handling Missing Values:
+Numerical Columns: Missing values in numerical columns are filled with the median of each column.
+Categorical Columns: Missing values in categorical columns are filled with the mode (most frequent value) of each column.
+### Feature Engineering:
+A new feature 'TotalBathrooms' is created by summing up 'FullBath' and 'HalfBath' columns to capture the total number of bathrooms in the house.
+### Splitting Data into Features and Target Variable:
+Features (X): The features selected are 'GrLivArea' (above-ground living area square footage), 'BedroomAbvGr' (number of bedrooms above ground), and the newly created 'TotalBathrooms'.
+Target Variable (y): The target variable is 'SalePrice'.
+### Splitting Data into Training and Test Sets:
+The data is split into training (80%) and test (20%) sets using train_test_split with a random state for reproducibility.
+### Standardizing Features:
+The features are standardized using StandardScaler to ensure they have a mean of 0 and a standard deviation of 1, which helps improve model performance.
+### Adding Polynomial Features:
+Polynomial features of degree 2 are added to capture non-linear relationships between the features.
+### Feature Selection using Lasso Regularization:
+Lasso Regression: Lasso regularization is applied to select the most important features by setting the regularization parameter alpha to 0.001. This step helps in reducing overfitting and improving model generalization.
+SelectFromModel: The SelectFromModel class is used to select the features deemed important by the Lasso model.
+### Training the Linear Regression Model:
+A LinearRegression model is trained using the selected features from the training set.
+### Making Predictions:
+Predictions are made on the test set using the trained Linear Regression model.
+### Evaluating the Model:
+The performance of the model is evaluated using the following metrics:
+Mean Squared Error (MSE): Measures the average squared difference between actual and predicted values.
+Root Mean Squared Error (RMSE): The square root of MSE, providing an error metric in the same units as the target variable.
+R-squared (R2) Score: Indicates the proportion of variance in the target variable that can be explained by the model. An R2 score closer to 1 indicates a better fit.
